@@ -1,5 +1,4 @@
-/* You can add global styles to this file, and also import other style files */
-/*
+/* You can add global styles to this file, and also import other style files
  * ----------------------------
  * Common CSS
  * ----------------------------
@@ -1035,4 +1034,12 @@ footer ul li{
     border:0;
     padding:8px 0
   }
+  .column-m {
+    float: left;
+    width: 25%;
+    padding: 10px;
+    padding-left: 20px;
+  }
 }
+
+
