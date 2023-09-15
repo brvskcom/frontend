@@ -27,23 +27,41 @@ export class ProductService {
 
     const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}`;
 
-    return this.httpClient.get(searchUrl).pipe(
-      map((response: any) => response.content)
-    );
+    return this.getProducts(searchUrl)
+  }
+
+  getProductListPaginate(thePage: number, theSize: number, theCategoryId: number): Observable<GetResponseProducts> {
+
+    const searchUrl = `${this.baseUrl}/search/findByCategoryId?id=${theCategoryId}&page=${thePage}&size=${theSize}`;
+
+    return this.httpClient.get<GetResponseProducts>(searchUrl);
   }
 
   searchProducts(theKeyword: string): Observable<Product[]> {
 
     const searchUrl = `${this.baseUrl}/search/findByNameContaining?name=${theKeyword}`;
 
-    return this.httpClient.get(searchUrl).pipe(
-      map((response: any) => response.content)
-    );
+    return this.getProducts(searchUrl)
   }
 
   getProductCategories(): Observable<ProductCategory[]> {
     return this.httpClient.get(this.categoryUrl).pipe(
       map((response: any) => response)
     );
+  }
+
+  private getProducts(searchUrl: string): Observable<Product[]> {
+    return this.httpClient.get<GetResponseProducts>(searchUrl).pipe(map((response: any) => response.content));
+  }
+
+
+}
+interface GetResponseProducts {
+  content: Product[];
+  page: {
+    size: number,
+    totalElements: number,
+    totalPages: number,
+    number: number
   }
 }
