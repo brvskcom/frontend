@@ -2,6 +2,8 @@ import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
 import {Component, OnInit} from "@angular/core";
+import {CartService} from "../../services/cart.service";
+import {CartItem} from "../../common/cart-item";
 
 @Component({
   selector: 'app-product-list',
@@ -21,6 +23,7 @@ export class ProductListComponent implements OnInit {
   theTotalElements: number = 0;
 
   constructor(private productService: ProductService,
+              private cartService: CartService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
@@ -46,7 +49,6 @@ export class ProductListComponent implements OnInit {
 
     const theKeyword: string = this.route.snapshot.paramMap.get('keyword')!;
 
-    // now search for the products using keyword
     this.productService.searchProducts(theKeyword).subscribe(
       data => {
         this.products = data;
@@ -56,24 +58,16 @@ export class ProductListComponent implements OnInit {
 
   handleListProducts() {
 
-    // check if "id" parameter is available
     const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
 
     if (hasCategoryId) {
-      // get the "id" param string. convert string to a number using the "+" symbol
+
       this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
     } else {
-      // not category id available ... default to category id 1
+
       this.currentCategoryId = 1;
     }
 
-    //
-    // Check if we have a different category than previous
-    // Note: Angular will reuse a component if it is currently being viewed
-    //
-
-    // if we have a different category id than previous
-    // then set thePageNumber back to 1
     if (this.previousCategoryId != this.currentCategoryId) {
       this.thePageNumber = 1;
     }
@@ -102,5 +96,14 @@ export class ProductListComponent implements OnInit {
           console.error('Błąd podczas pobierania danych:', error);
         }
       );
+  }
+
+  addToCart(theProduct: Product) {
+
+    console.log(`Adding to cart: ${theProduct.name}, ${theProduct.unitPrice}`);
+
+    const theCartItem = new CartItem(theProduct.id,theProduct.name, theProduct.imageUrl, theProduct.unitPrice);
+
+    this.cartService.addToCart(theCartItem);
   }
 }
