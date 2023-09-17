@@ -17,7 +17,7 @@
             </td>
             <td>
               <p>{{ tempCartItem.name }}</p>
-              <p>{{ tempCartItem.unitPrice | currency: 'zł ' }}</p>
+              <p>Total Price: {{ tempCartItem.unitPrice.toFixed(2) }} zł</p>
             </td>
             <td>
               <div class="items">
@@ -56,7 +56,7 @@
             <td style="font-weight: bold">
               <p>Total Quantity: {{ totalQuantity }}</p>
               <p>Shipping: FREE</p>
-              <p>Total Price: {{ totalPrice | currency: 'zł ' }}</p>
+              <p>Total Price: {{ totalPrice.toFixed(2) }} zł</p>
               <div>
                 <a routerLink="/checkout" class="btn btn-primary">Checkout</a>
               </div>

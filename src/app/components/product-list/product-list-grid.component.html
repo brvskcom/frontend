@@ -19,7 +19,7 @@
                         <h1>{{ tempProduct.name }}</h1>
                       </a>
 
-                      <div class="price">{{ tempProduct.unitPrice | currency:'zł ' }}</div>
+                      <p>Total Price: {{ tempProduct.unitPrice.toFixed(2) }} zł</p>
                       <button (click)="addToCart(tempProduct)" class="btn btn-primary btn-sm">Add to cart</button>
                     </div>
 
